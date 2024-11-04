@@ -11,7 +11,7 @@ class StoreVariantRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class StoreVariantRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'product_id' => 'required|exists:products,id',
+            'price' => 'required|numeric',
+            'attribute_values' => 'array',
+            'attribute_values.*' => 'exists:attribute_values,id',
         ];
     }
 }

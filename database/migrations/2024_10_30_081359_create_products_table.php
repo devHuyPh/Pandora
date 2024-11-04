@@ -26,7 +26,7 @@ return new class extends Migration
             $table->boolean('is_showhome');
 
             $table->foreignIdFor(Category::class)->constrained();
-            $table->foreignIdFor(Attibute::class)->constrained();
+            $table->foreignIdFor(Attibute::class)->constrained('attibutes');
             $table->timestamps();
             $table->softDeletes();
         });

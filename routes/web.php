@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\AttibuteController;
+use App\Http\Controllers\AttributeValueController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\VariantController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -35,3 +40,10 @@ Route::get('/reset-password', function () {
 Route::get('/dashboard', function () {
     return view('admin.dashboard');
 });
+
+Route::resource('products', ProductController::class);
+
+Route::resource('attributes', AttibuteController::class);
+Route::resource('categories', CategoryController::class);
+Route::resource('variants', VariantController::class);
+Route::resource('attributes.values', AttributeValueController::class);

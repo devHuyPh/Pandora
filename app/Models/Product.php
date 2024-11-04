@@ -20,6 +20,13 @@ class Product extends Model
         'is_showhome',
     ];
 
+    protected $attributes = [
+        'is_active' => 1,
+        'is_hotdeal' => 1,
+        'is_new' => 1,
+        'is_showhome' => 1,
+    ];
+
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -49,10 +56,14 @@ class Product extends Model
     {
         return $this->hasMany(Variant::class);
     }
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class);
+    }
 
     // Thêm phương thức này để lấy tất cả các thuộc tính của sản phẩm qua các biến thể
     public function attributes()
     {
-        return $this->hasManyThrough(Attibute::class, AttributeValue::class, 'product_id', 'attribute_id', 'id', 'id');
+        return $this->hasManyThrough(Attibute::class, AttributeValue::class, 'product_id', 'attibute_id', 'id', 'id');
     }
 }

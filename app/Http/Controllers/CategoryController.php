@@ -11,9 +11,13 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
+    const PATH_VIEW = 'admin.categories.';
+
     public function index()
     {
         //
+        $data=Category::all();
+        return view(self::PATH_VIEW . __FUNCTION__, compact('data'));
     }
 
     /**
@@ -21,7 +25,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view(self::PATH_VIEW . __FUNCTION__);
     }
 
     /**
@@ -30,6 +34,18 @@ class CategoryController extends Controller
     public function store(StoreCategoryRequest $request)
     {
         //
+        $data = $request->validated();
+        try {
+            Category::query()->create($data);
+            return redirect()
+                ->route('categories.index')
+                ->with('success', true);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return back()
+                ->with('success', false)
+                ->with('error', $th->getMessage());
+        }
     }
 
     /**
@@ -45,7 +61,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view(self::PATH_VIEW . __FUNCTION__, compact('category'));
     }
 
     /**
@@ -54,6 +70,18 @@ class CategoryController extends Controller
     public function update(UpdateCategoryRequest $request, Category $category)
     {
         //
+        $data = $request->validated();
+        try {
+            $category->update($data);
+
+            return redirect()
+                ->route('categories.index')
+                ->with('success', 'Category updated successfully.');
+        } catch (\Throwable $th) {
+
+            return back()
+                ->with('error', 'Failed to update attribute: ' . $th->getMessage());
+        }
     }
 
     /**
@@ -62,5 +90,16 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         //
+        try {
+            $category->delete();
+           
+            return back()
+                ->with('success', false);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return back()
+                ->with('success', false)
+                ->with('error', $th->getMessage());
+        }
     }
 }

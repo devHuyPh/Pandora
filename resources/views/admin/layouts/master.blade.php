@@ -8,6 +8,14 @@
   <title>Dashboard - NiceAdmin Bootstrap Template</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
+  <!-- Thêm CSS cho Select2 -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
+<!-- Thêm jQuery (nếu chưa có) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Thêm JS cho Select2 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
   {{-- css --}}
   @include('admin.layouts.partials.css')
@@ -30,7 +38,7 @@
   <!-- ======= Sidebar ======= -->
   @include('admin.layouts.partials.sidebar')
 
-  <main id="main" class="main">
+  <main id="main" class="main" style="width: 80%;">
 
     @yield('content')
 
