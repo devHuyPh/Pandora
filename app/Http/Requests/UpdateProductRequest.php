@@ -25,20 +25,15 @@ class UpdateProductRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'price' => 'required|numeric',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'price' => 'required|numeric|min:0',
-            'quantity' => 'required|integer|min:0',
-            'base_price' => 'required|numeric|min:0',
-            'is_active' => ['nullable', Rule::in([0, 1])],
-            'is_hotdeal' => ['nullable', Rule::in([0, 1])],
-            'is_new' => ['nullable', Rule::in([0, 1])],
-            'is_showhome' => ['nullable', Rule::in([0, 1])],
-            'category_ids' => 'required|array',
-            'category_ids.*' => 'exists:categories,id',
-            'variants' => 'array',
+            'base_price' => 'required|numeric',
+            'quantity' => 'required|integer',
+            'category_id' => 'required|exists:categories,id', 
+            'variants' => 'array', 
             'variants.*.price' => 'required|numeric',
             'variants.*.stock' => 'required|integer',
-            'variants.*.attribute_values' => 'required|array',
+            'variants.*.attribute_values' => 'array',
         ];
     }
 }

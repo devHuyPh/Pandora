@@ -19,13 +19,14 @@ class Product extends Model
         'is_hotdeal',
         'is_new',
         'is_showhome',
+        'category_id',
     ];
 
     protected $attributes = [
-        'is_active' => 1,
-        'is_hotdeal' => 1,
-        'is_new' => 1,
-        'is_showhome' => 1,
+        'is_active' => 0,
+        'is_hotdeal' => 0,
+        'is_new' => 0,
+        'is_showhome' => 0,
     ];
 
     public function category()
@@ -52,11 +53,11 @@ class Product extends Model
     {
         return $this->belongsToMany(Tag::class, 'product_tags');
     }
-
     public function variants()
     {
         return $this->hasMany(Variant::class);
     }
+
     public function images()
     {
         return $this->hasMany(ProductImage::class);

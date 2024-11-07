@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Attibute;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
-use App\Models\Attibute;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -38,24 +39,39 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
         $validated = $request->validated();
+        $validated['is_active'] ??= 0;
+        $validated['is_hotdeal'] ??= 0;
+        $validated['is_new'] ??= 0;
+        $validated['is_showhome'] ??= 0;
 
-        // Tạo sản phẩm mới
-        $product = Product::create($validated);
-
-        // Xử lý ảnh nếu có tải lên
+        // Xử lý hình ảnh nếu có tải lên
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('images/products', 'public');
-            $product->update(['image_path' => $path]);
+            $validated['image'] = Storage::put('images/products', $request->file('image'));
         }
+        $product = Product::create([
+            'name' => $validated['name'],
+            'description' => $validated['description'],
+            'image' => $validated['image'],
+            'price' => $validated['price'],
+            'base_price' => $validated['base_price'],
+            'quantity' => $validated['quantity'],
+            'category_id' => $validated['category_id'],
+        ]);
 
-        // Tạo các biến thể cho sản phẩm
-        if (isset($validated['variants'])) {
+
+
+        // Xử lý các biến thể nếu có
+        if (!empty($validated['variants'])) {
             foreach ($validated['variants'] as $variantData) {
                 $variant = $product->variants()->create([
                     'price' => $variantData['price'],
-                    'quantity' => $variantData['stock'],
+                    'stock' => $variantData['stock'],
                 ]);
-                $variant->attributeValues()->attach($variantData['attribute_values']);
+
+                // Gắn các giá trị thuộc tính vào biến thể
+                foreach ($variantData['attribute_values'] as $attributeId => $valueIds) {
+                    $variant->attributeValues()->attach($valueIds);
+                }
             }
         }
 
@@ -76,34 +92,94 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
+        $productt = Product::with(['variants.attributeValues'])->findOrFail($product->id);
+        $product = Product::with('variants')->findOrFail($product->id);
         $attributes = Attibute::with('values')->get();
         $categories = Category::all();
-        return view(self::PATH_VIEW . 'edit', compact('product', 'attributes', 'categories'));
+        return view(self::PATH_VIEW . 'edit', compact('product', 'attributes', 'categories', 'productt'));
     }
 
     /**
      * Cập nhật sản phẩm.
      */
-    public function update(UpdateProductRequest $request, Product $product)
+    public function update(UpdateProductRequest $request, $id)
     {
+        $product = Product::findOrFail($id);
+
+        // Lấy dữ liệu đã xác thực từ request
         $validated = $request->validated();
+        $validated['is_active'] ??= 0;
+        $validated['is_hotdeal'] ??= 0;
+        $validated['is_new'] ??= 0;
+        $validated['is_showhome'] ??= 0;
 
-        $product->update($validated);
-
-        // Xử lý ảnh nếu có tải lên
+        // Xử lý cập nhật hình ảnh nếu có tải lên
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('images/products', 'public');
-            $product->update(['image_path' => $path]);
+            if ($product->image) {
+                Storage::delete($product->image);  // Xóa ảnh cũ
+            }
+            $validated['image'] = Storage::put('images/products', $request->file('image'));  // Lưu ảnh mới
+        }
+
+        // Cập nhật thông tin sản phẩm
+        $product->update([
+            'name' => $validated['name'],
+            'description' => $validated['description'],
+            'image' => $validated['image'] ?? $product->image,
+            'price' => $validated['price'],
+            'base_price' => $validated['base_price'],
+            'quantity' => $validated['quantity'],
+            'category_id' => $validated['category_id'],
+            'is_active' => $validated['is_active'],
+            'is_hotdeal' => $validated['is_hotdeal'],
+            'is_new' => $validated['is_new'],
+            'is_showhome' => $validated['is_showhome'],
+        ]);
+
+        if (!empty($validated['variants'])) {
+            foreach ($validated['variants'] as $variantData) {
+                if (isset($variantData['id'])) {
+                    $variant = $product->variants()->findOrFail($variantData['id']);
+                    $variant->update([
+                        'price' => $variantData['price'],
+                        'stock' => $variantData['stock'],
+                    ]);
+                } else {
+                    $variant = $product->variants()->create([
+                        'price' => $variantData['price'],
+                        'stock' => $variantData['stock'],
+                    ]);
+                }
+
+                if (!empty($variantData['attribute_values'])) {
+                    $attributeValues = [];
+
+                    foreach ($variantData['attribute_values'] as $attributeId => $valueIds) {
+                        if (is_array($valueIds)) {
+                            $attributeValues = array_merge($attributeValues, $valueIds);
+                        } else {
+                            $attributeValues[] = $valueIds;
+                        }
+                    }
+
+                    $variant->attributeValues()->sync($attributeValues);
+                }
+            }
         }
 
         return redirect()->route('products.index')->with('success', 'Product updated successfully!');
     }
+
+
 
     /**
      * Xóa sản phẩm.
      */
     public function destroy(Product $product)
     {
+        if (!empty($product->image) && Storage::exists($product->image)) {
+            Storage::delete($product->image);
+        }
         $product->delete();
         return redirect()->route('products.index')->with('success', 'Product deleted successfully!');
     }

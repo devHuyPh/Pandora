@@ -6,8 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -18,16 +17,16 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->text('description')->nullable();
             $table->string('image')->nullable();
-            $table->decimal('price',10,2);
+            $table->decimal('price', 10, 2);
             $table->integer('quantity');
-            $table->decimal('base_price',10,2);
+            $table->decimal('base_price', 10, 2);
             $table->boolean('is_active');
             $table->boolean('is_hotdeal');
             $table->boolean('is_new');
             $table->boolean('is_showhome');
 
-            $table->foreignIdFor(Category::class)->constrained();
-            $table->foreignIdFor(Attibute::class)->constrained('attibutes');
+
+            $table->foreignId('category_id')->nullable()->constrained();
             $table->timestamps();
             $table->softDeletes();
         });

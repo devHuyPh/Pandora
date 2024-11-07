@@ -29,7 +29,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($data as $attribute)
+                                @foreach ($attribute as $attribute)
                                     <tr>
                                         <td>{{ $attribute->id }}</td>
                                         <td>{{ $attribute->name }}</td>

@@ -45,46 +45,10 @@
                         <i class="bi bi-circle"></i><span>Add Attribute</span>
                     </a>
                 </li>
-                <li>
-                    <a href="forms-editors.html">
-                        <i class="bi bi-circle"></i><span>Form Editors</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="forms-validation.html">
-                        <i class="bi bi-circle"></i><span>Form Validation</span>
-                    </a>
-                </li>
+                
             </ul>
         </li><!-- End Forms Nav -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#varian-nav" data-bs-toggle="collapse"
-                href="{{ url('attributes') }}">
-                <i class="bi bi-journal-text"></i><span>Variant</span><i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul id="varian-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                <li>
-                    <a href="{{ url('attributes') }}">
-                        <i class="bi bi-circle"></i><span>List Attribute</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ url('attributes/create') }}">
-                        <i class="bi bi-circle"></i><span>Add Attribute</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="forms-editors.html">
-                        <i class="bi bi-circle"></i><span>Form Editors</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="forms-validation.html">
-                        <i class="bi bi-circle"></i><span>Form Validation</span>
-                    </a>
-                </li>
-            </ul>
-        </li><!-- End Forms Nav -->
+       
         <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse"
                 href="{{ url('categories') }}">

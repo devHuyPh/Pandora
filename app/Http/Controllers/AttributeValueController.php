@@ -26,7 +26,7 @@ class AttributeValueController extends Controller
 
         $attribute->values()->create($validated);
 
-        return redirect()->route('attributes.values.index', $attribute->id)->with('success', 'Attribute value created successfully!');
+        return redirect()->route('attributes.index', $attribute->id)->with('success', 'Attribute value created successfully!');
     }
 
     public function edit(Attibute $attribute, AttributeValue $value)

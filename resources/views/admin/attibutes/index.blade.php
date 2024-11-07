@@ -41,7 +41,7 @@
                                                 <button class="btn btn-dark " type="submit"
                                                     onclick="return confirm('xoa nhe')">Xóa</button>
                                             </form>
-                                            <a class="btn btn-success"  href="{{ route('attributes.values.index', $attribute) }}">Quản Lí</a>
+                                            <a class="btn btn-success"  href="{{ route('attributes.values.create', $attribute) }}">Quản Lí</a>
                                         </td>
                                     </tr>
                                 @endforeach
