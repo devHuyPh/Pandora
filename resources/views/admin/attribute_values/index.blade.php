@@ -34,14 +34,17 @@
                                         <td>{{ $attribute->id }}</td>
                                         <td>{{ $attribute->name }}</td>
                                         <td>
-                                            <a class="btn btn-success" href="{{ route('attributes.edit', $attribute) }}">Sửa</i></a>
-                                            <form action="{{ route('attributes.destroy', $attribute) }}" method="post">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button class="btn btn-dark " type="submit"
-                                                    onclick="return confirm('xoa nhe')">Xóa</button>
-                                            </form>
-                                            <a class="btn btn-success"  href="{{ route('attributes.values.index', $attribute) }}">Quản Lí</a>
+
+                                            <a class="btn btn-success" href="{{ route('attributes.edit', $attribute) }}"><i
+                                                    class="bi bi-pen-fill"></i></a>
+                                            <a href="">
+                                                <form action="{{ route('attributes.destroy', $attribute) }}" method="post">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-dark bi bi-x-square-fill" type="submit"
+                                                        onclick="return confirm('xoa nhe')"></button>
+                                                </form>
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach

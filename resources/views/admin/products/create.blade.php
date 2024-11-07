@@ -2,152 +2,85 @@
 
 @section('content')
     <div class="pagetitle">
-        <h1>Form Elements</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                <li class="breadcrumb-item">Forms</li>
-                <li class="breadcrumb-item active">Elements</li>
-            </ol>
-        </nav>
-    </div><!-- End Page Title -->
+        <h1>Add New Product</h1>
+    </div>
 
     <section class="section">
-        <form action="">
+        <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
             <div class="row">
                 <div class="col-lg-8">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Add New Product</h5>
-                            <!-- General Form Elements -->
+                            <h5 class="card-title">Product Details</h5>
 
-                            <div class="row mb-3">
-                                <label for="inputNumber" class="col-sm-2 col-form-label">File Upload</label>
-                                <div class="col-sm-10">
-                                    <input class="form-control" type="file" id="formFile">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="inputText" class="col-sm-2 col-form-label">Name</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="inputEmail" class="col-sm-2 col-form-label">Description</label>
-                                <div class="col-sm-10">
-                                    <input type="email" class="form-control">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="inputPassword" class="col-sm-2 col-form-label">Price</label>
-                                <div class="col-sm-10">
-                                    <input type="password" class="form-control">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="inputNumber" class="col-sm-2 col-form-label">Base Price</label>
-                                <div class="col-sm-10">
-                                    <input type="number" class="form-control">
-                                </div>
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" class="form-control" name="name" required>
                             </div>
 
-                            <div class="row mb-3">
-                                <label for="inputDate" class="col-sm-2 col-form-label">Is </label>
-                                <div class="col-sm-10">
-                                    <input type="date" class="form-control">
-                                </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea class="form-control" name="description"></textarea>
                             </div>
-                            <div class="card">
-                                <div class="left col-sm-10">
-                                    <button type="submit" class="btn btn-light">Add Image</button>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row mb-3">
-                                        <label for="inputNumber" class="col-sm-2 col-form-label">File Upload</label>
-                                        <div class="col-sm-10">
-                                            <input class="form-control" type="file" id="formFile">
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <label for="inputNumber" class="col-sm-2 col-form-label">File Upload</label>
-                                        <div class="col-sm-10">
-                                            <input class="form-control" type="file" id="formFile">
-                                        </div>
-                                    </div>
-                                </div>
 
+                            <div class="mb-3">
+                                <label for="image" class="form-label">Image</label>
+                                <input type="file" class="form-control" name="image">
                             </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-10">
-                                    <button type="submit" class="btn btn-primary">Submit Form</button>
-                                </div>
+
+                            <div class="mb-3">
+                                <label for="price" class="form-label">Price</label>
+                                <input type="number" class="form-control" name="price" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="base_price" class="form-label">Base Price</label>
+                                <input type="number" class="form-control" name="base_price" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="quantity" class="form-label">Quantity</label>
+                                <input type="number" class="form-control" name="quantity" required>
                             </div>
                         </div>
                     </div>
-
                 </div>
+
                 <div class="col-lg-4">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Action</h5>
-                            <!-- Advanced Form Elements -->
-                            <div class="row mb-3">
-                                <label class="col-sm-12 col-form-label">Parameters</label>
-                                <div class="col-sm-10">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                                        <label class="form-check-label" for="flexSwitchCheckDefault">Is Active</label>
-                                    </div>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                                        <label class="form-check-label" for="flexSwitchCheckDefault">Is Hot Deal</label>
-                                    </div>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                                        <label class="form-check-label" for="flexSwitchCheckDefault">Is Show Home</label>
-                                    </div>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                                        <label class="form-check-label" for="flexSwitchCheckDefault">Is New</label>
-                                    </div>
-                                </div>
+                            <h5 class="card-title">Parameters</h5>
+
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" name="is_active" value="1">
+                                <label class="form-check-label">Is Active</label>
                             </div>
-                            <div class="row mb-3">
-                                <label class="col-sm-12 col-form-label">Category</label>
-                                <div class="mb-3">
-                                    <select class="form-select" id="floatingSelect" required
-                                        aria-label="Floating label select example">
-                                        <option selected>Open this select menu</option>
-                                        @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" name="is_hotdeal" value="1">
+                                <label class="form-check-label">Is Hot Deal</label>
                             </div>
-                            <div class="row mb-3">
-                                <label class="col-sm-12 col-form-label">Tags</label>
-                                <div class=" mb-3">
-                                    <select class="form-select" id="floatingSelect"
-                                        aria-label="Floating label select example">
-                                        <option selected>Open this select menu</option>
-                                    </select>
-                                </div>
+
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" name="is_new" value="1">
+                                <label class="form-check-label">Is New</label>
                             </div>
-                            {{-- <div class="row mb-3">
-                                <label class="col-sm-12 col-form-label">Attributes</label>
-                                @foreach ($attributes as $attribute)
-                                    <div class=" mb-3">
-                                        <select class="form-select" id="floatingSelect"
-                                            name="variants[0][attribute_values][]" required
-                                            aria-label="Floating label select example">
-                                            <option selected>Open this select menu</option>
-                                            @foreach ($attribute->values as $value)
-                                                <option value="{{ $value->id }}">{{ $value->value }}</option>
-                                            @endforeach
-                                        </select>
-                                @endforeach
-                            </div> --}}
+
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" name="is_showhome" value="1">
+                                <label class="form-check-label">Is Show Home</label>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Category</label>
+                                <select class="form-select" name="category_id" required>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
                             <div class="row mb-3">
                                 <label class="col-sm-12 col-form-label">Attributes</label>
                                 @foreach ($attributes as $attribute)
@@ -163,15 +96,18 @@
                                     </div>
                                 @endforeach
                             </div>
-                            
                             <script>
                                 $(document).ready(function() {
                                     $('.select2').select2();
                                 });
                             </script>
+                            
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="text-end">
+                <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </form>
     </section>

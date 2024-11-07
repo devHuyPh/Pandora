@@ -13,6 +13,7 @@ class Product extends Model
         'description',
         'image',
         'price',
+        'quantity',
         'base_price',
         'is_active',
         'is_hotdeal',
@@ -64,6 +65,6 @@ class Product extends Model
     // Thêm phương thức này để lấy tất cả các thuộc tính của sản phẩm qua các biến thể
     public function attributes()
     {
-        return $this->hasManyThrough(Attibute::class, AttributeValue::class, 'product_id', 'attibute_id', 'id', 'id');
+        return $this->hasManyThrough(Attibute::class, AttributeValue::class, 'product_id', 'attribute_id', 'id', 'id');
     }
 }
