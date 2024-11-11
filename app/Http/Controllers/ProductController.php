@@ -22,6 +22,11 @@ class ProductController extends Controller
         $products = Product::all();
         return view(self::PATH_VIEW . 'index', compact('products'));
     }
+    public function show_all()
+    {
+        $products = Product::with(['variants.attributeValues'])->paginate(5); 
+        return view('client.category', compact('products'));
+    }
 
     /**
      * Hiển thị form tạo sản phẩm mới.

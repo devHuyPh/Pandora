@@ -22,9 +22,8 @@ Route::get('/cart', function () {
 Route::get('/check_out', function () {
     return view('client.check_out');
 });
-Route::get('/category', function () {
-    return view('client.category');
-})->name('category');
+Route::get('/category', [ProductController::class, 'show_all'])
+    ->name('category');
 Route::get('/login', function () {
     return view('account.login');
 })->name('login');
