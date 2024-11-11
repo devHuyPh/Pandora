@@ -23,7 +23,7 @@
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
                                     <a class="dropdown-item" href="category.html"> shop category</a>
                                     <a class="dropdown-item" href="single-product.html">product details</a>
-                                    
+
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
@@ -50,7 +50,7 @@
                                     <a class="dropdown-item" href="single-blog.html">Single blog</a>
                                 </div>
                             </li>
-                            
+
                             <li class="nav-item">
                                 <a class="nav-link" href="contact.html">Contact</a>
                             </li>
@@ -62,15 +62,21 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-cart-plus"></i>
                             </a>
-                           <div class="dropdown-menu" aria-labelledby="navbarDropdown">a
-                                
-                            </div> 
-                            
+                        </div>
+                        <div class="dropdown ">
+                            <a class="dropdown" href="#" id="" role="button"
+                                data-toggle="dropdown" aria-haspopup="" aria-expanded="false">
+                                <i class="fas fa-user"></i>
+                            </a>
+                            <div class="dropdown-menu">
+                                <a href="{{route('login')}}">Login</a> <br>
+                                <a href="{{route('register')}}">Sign in</a>
+                            </div>
                         </div>
                     </div>
                 </nav>
             </div>
         </div>
     </div>
-    
+
 </div>

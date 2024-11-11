@@ -22,45 +22,80 @@
     <div class="product_image_area section_padding">
         <div class="container">
             <div class="row s_product_inner justify-content-between">
-                <div class="col-lg-7 col-xl-7">
-                    <div class="product_slider_img">
-                        <div id="vertical">
-                            <div data-thumb="img/product/single-product/product_1.png">
-                                <img src="/client/img/product/single-product/product_1.png" />
+                @if ($product->variants->isNotEmpty())
+                    <div class="col-lg-7 col-xl-7">
+                        <div class="product_slider_img">
+                            <div id="vertical">
+                                <div data-thumb="{{ Storage::url($product->image)}}">
+                                    <img src="{{ Storage::url($product->image)}}" width="400px" />
+                                </div>
+
                             </div>
-                            
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-5 col-xl-4">
-                    <div class="s_product_text">
-                        <h5>previous <span>|</span> next</h5>
-                        <h3>Faded SkyBlu Denim Jeans</h3>
-                        <h2>$149.99</h2>
-                        <ul class="list">
-                            <li>
-                                <a class="active" href="#">
-                                    <span>Category</span> : Household</a>
-                            </li>
-                            <li>
-                                <a href="#"> <span>Availibility</span> : In Stock</a>
-                            </li>
-                        </ul>
-                        <p>
-                            First replenish living. Creepeth image image. Creeping can't, won't called.
-                            Two fruitful let days signs sea together all land fly subdue
-                        </p>
-                        <div class="card_area d-flex justify-content-between align-items-center">
-                            <div class="product_count">
-                                <span class="inumber-decrement"> <i class="ti-minus"></i></span>
-                                <input class="input-number" type="text" value="1" min="0" max="10">
-                                <span class="number-increment"> <i class="ti-plus"></i></span>
+
+                    <div class="col-lg-5 col-xl-4">
+                        <div class="s_product_text">
+                            <h2>{{ $product->name }}</h2>
+                            <h2> {{ number_format($product->price, 0, ',', '.') }} VND</h2>
+                            <ul class="list">
+                                <li>
+                                    <a class="active" href="#">
+                                        <span>Category</span>{{ $product->category->name ?? 'Chưa phân loại' }}</a>
+                                </li>
+                                <li>
+                                    <a href="#"> <span>Availibility</span> : In Stock</a>
+                                </li>
+                            </ul>
+                            <p>
+                                {{ $product->description }}
+                            </p>
+                            <div class="card_area d-flex justify-content-between align-items-center">
+                                <div class="product_count">
+                                    <span class="inumber-decrement"> <i class="ti-minus"></i></span>
+                                    <input class="input-number" type="text" value="1" min="0" max="10">
+                                    <span class="number-increment"> <i class="ti-plus"></i></span>
+                                </div>
+                                <a href="#" class="btn_3">add to cart</a>
+                                <a href="#" class="like_us"> <i class="ti-heart"></i> </a>
                             </div>
-                            <a href="#" class="btn_3">add to cart</a>
-                            <a href="#" class="like_us"> <i class="ti-heart"></i> </a>
                         </div>
                     </div>
-                </div>
+
+
+                    <div class="card mt-12">
+                        <div class="card-header">
+                            <h3>Các biến thể</h3>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Giá</th>
+                                        <th>Tồn kho</th>
+                                        <th>Thuộc tính</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($product->variants as $variant)
+                                        <tr>
+                                            <td>{{ number_format($variant->price, 0, ',', '.') }} VND</td>
+                                            <td>{{ $variant->stock }}</td>
+                                            <td>
+                                                @foreach ($variant->attributeValues as $attributeValue)
+                                                    {{ $attributeValue->value }}
+                                                @endforeach
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                @endif
+
+
+                
             </div>
         </div>
     </div>

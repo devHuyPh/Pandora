@@ -24,7 +24,7 @@ class ProductController extends Controller
     }
     public function show_all()
     {
-        $products = Product::with(['variants.attributeValues'])->paginate(5); 
+        $products = Product::with(['variants.attributeValues'])->paginate(5);
         return view('client.category', compact('products'));
     }
 
@@ -86,9 +86,14 @@ class ProductController extends Controller
     /**
      * Hiển thị thông tin chi tiết sản phẩm.
      */
-    public function show(Product $product)
+    public function show(Product $product, $viewType = 'show')
     {
         $variants = $product->variants;
+
+        if ($viewType === 'detail') {
+            return view('client.detail_product', compact('product', 'variants'));
+        }
+
         return view(self::PATH_VIEW . 'show', compact('product', 'variants'));
     }
 

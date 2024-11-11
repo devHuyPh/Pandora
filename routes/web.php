@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AttibuteController;
 use App\Http\Controllers\AttributeValueController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\VariantController;
@@ -12,9 +13,9 @@ Route::get('/', function () {
     return view('client.index');
 })->name('/');
 
-Route::get('/detail', function () {
-    return view('client.detail_product');
-});
+Route::get('/products/{product}/detail', [ProductController::class, 'show'])
+    ->name('products.detail');
+
 Route::get('/cart', function () {
     return view('client.cart');
 })->name('cart');
@@ -24,12 +25,11 @@ Route::get('/check_out', function () {
 });
 Route::get('/category', [ProductController::class, 'show_all'])
     ->name('category');
-Route::get('/login', function () {
-    return view('account.login');
-})->name('login');
-Route::get('/signin', function () {
-    return view('account.signin');
-})->name('signin');
+Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+Route::post('/register', [AuthController::class, 'register']);
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/forget-password', function () {
     return view('account.forget-password');
 });

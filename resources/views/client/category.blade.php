@@ -129,7 +129,8 @@
                                 <div class="single_product_item">
                                     <img src="{{ Storage::url($product->image) }}" alt="" width="300px">
                                     <div class="single_product_text">
-                                        <h4>{{ $product->name }}</h4>
+                                        
+                                        <a href="{{route('products.detail', $product->id) }}"> <h4>{{ $product->name }}</h4></a>
                                         <h3>${{ number_format($product->price, 2) }}</h3>
                                         <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
                     
