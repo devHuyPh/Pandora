@@ -33,7 +33,17 @@
                                     <tr>
                                         <td>{{ $order->id }}</td>
                                         <td>{{ $order->user->name ?? 'Guest' }}</td>
-                                        <td>{{ ucfirst($order->status->name ?? 'Unknown') }}</td>
+                                        <form action="{{ route('admin.orders.update.status', $order->id) }}" method="POST">
+                                            @csrf
+                                            <select name="status" class="form-control" onchange="this.form.submit()">
+                                                @foreach ($statuses as $status)
+                                                    <option value="{{ $status->id }}"
+                                                        {{ $order->order_status_id == $status->id ? 'selected' : '' }}>
+                                                        {{ $status->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </form>
                                         <td>${{ number_format($order->total_price, 2) }}</td>
                                         <td>
                                             <a href="{{ route('admin.orders.show', $order->id) }}">View</a>
