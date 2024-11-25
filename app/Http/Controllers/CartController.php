@@ -1,66 +1,46 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use App\Models\Cart;
-use App\Http\Requests\StoreCartRequest;
-use App\Http\Requests\UpdateCartRequest;
+use App\Models\Product;
+use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function addToCart(Request $request, $id)
     {
-        //
+        $product = Product::findOrFail($id); 
+        $cart = session()->get('cart', []); 
+
+        if (isset($cart[$id])) {
+            $cart[$id]['quantity']++; 
+        } else {
+            $cart[$id] = [
+                'name' => $product->name,
+                'quantity' => 1,
+                'price' => $product->price,
+                'image' => $product->image,
+            ];
+        }
+
+        session()->put('cart', $cart); 
+        return redirect()->back()->with('success', 'Product added to cart!');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function viewCart()
     {
-        //
+        $cart = session()->get('cart', []);
+        return view('cart.index', compact('cart'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreCartRequest $request)
+    public function removeFromCart($id)
     {
-        //
-    }
+        $cart = session()->get('cart', []);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Cart $cart)
-    {
-        //
-    }
+        if (isset($cart[$id])) {
+            unset($cart[$id]); 
+            session()->put('cart', $cart);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateCartRequest $request, Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Cart $cart)
-    {
-        //
+        return redirect()->back()->with('success', 'Product removed from cart!');
     }
 }

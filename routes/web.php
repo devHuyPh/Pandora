@@ -3,6 +3,7 @@
 use App\Http\Controllers\AttibuteController;
 use App\Http\Controllers\AttributeValueController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\VariantController;
@@ -46,3 +47,8 @@ Route::resource('attributes', AttibuteController::class);
 Route::resource('categories', CategoryController::class);
 Route::resource('variants', VariantController::class);
 Route::resource('attributes.values', AttributeValueController::class);
+
+
+Route::get('/cart', [CartController::class, 'viewCart'])->name('cart.view');
+Route::post('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');
+Route::delete('/cart/remove/{id}', [CartController::class, 'removeFromCart'])->name('cart.remove');
