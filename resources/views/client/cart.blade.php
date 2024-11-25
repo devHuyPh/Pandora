@@ -33,13 +33,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if($cart && count($cart) > 0)
+                            @if ($cart && count($cart) > 0)
                                 @foreach ($cart as $id => $item)
                                     <tr>
                                         <td>
                                             <div class="media">
                                                 <div class="d-flex">
-                                                    <img src="{{ $item['image'] }}" alt="{{ $item['name'] }}" style="width: 80px; height: 80px;" />
+                                                    <img src="{{ $item['image'] }}" alt="{{ $item['name'] }}"
+                                                        style="width: 80px; height: 80px;" />
                                                 </div>
                                                 <div class="media-body">
                                                     <p>{{ $item['name'] }}</p>
@@ -51,7 +52,14 @@
                                         </td>
                                         <td>
                                             <div class="product_count">
-                                                <input class="input-number" type="text" value="{{ $item['quantity'] }}" min="1" max="10" readonly>
+                                                <form action="{{ route('cart.update', $id) }}" method="POST"
+                                                    style="display: inline-block;">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <input class="input-number" type="number" name="quantity"
+                                                        value="{{ $item['quantity'] }}" min="1" max="10"
+                                                        onchange="this.form.submit()">
+                                                </form>
                                             </div>
                                         </td>
                                         <td>
@@ -69,10 +77,22 @@
                                 <tr>
                                     <td></td>
                                     <td></td>
-                                    <td><h5>Subtotal</h5></td>
-                                    <td><h5>${{ number_format(array_reduce($cart, function ($carry, $item) {
-                                        return $carry + $item['price'] * $item['quantity'];
-                                    }, 0), 2) }}</h5></td>
+                                    <td>
+                                        <h5>Subtotal</h5>
+                                    </td>
+                                    <td>
+                                        <h5>${{ number_format(
+                                            array_reduce(
+                                                $cart,
+                                                function ($carry, $item) {
+                                                    return $carry + $item['price'] * $item['quantity'];
+                                                },
+                                                0,
+                                            ),
+                                            2,
+                                        ) }}
+                                        </h5>
+                                    </td>
                                     <td></td>
                                 </tr>
                             @else
@@ -86,7 +106,7 @@
                     </table>
                     <div class="checkout_btn_inner float-right">
                         <a class="btn_1" href="{{ route('products.index') }}">Continue Shopping</a>
-                        @if($cart && count($cart) > 0)
+                        @if ($cart && count($cart) > 0)
                             <a class="btn_1 checkout_btn_1" href="#">Proceed to checkout</a>
                         @endif
                     </div>

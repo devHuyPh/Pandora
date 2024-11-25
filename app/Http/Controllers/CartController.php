@@ -8,11 +8,11 @@ class CartController extends Controller
 {
     public function addToCart(Request $request, $id)
     {
-        $product = Product::findOrFail($id); 
-        $cart = session()->get('cart', []); 
+        $product = Product::findOrFail($id);
+        $cart = session()->get('cart', []);
 
         if (isset($cart[$id])) {
-            $cart[$id]['quantity']++; 
+            $cart[$id]['quantity']++;
         } else {
             $cart[$id] = [
                 'name' => $product->name,
@@ -22,7 +22,7 @@ class CartController extends Controller
             ];
         }
 
-        session()->put('cart', $cart); 
+        session()->put('cart', $cart);
         return redirect()->back()->with('success', 'Product added to cart!');
     }
 
@@ -37,10 +37,22 @@ class CartController extends Controller
         $cart = session()->get('cart', []);
 
         if (isset($cart[$id])) {
-            unset($cart[$id]); 
+            unset($cart[$id]);
             session()->put('cart', $cart);
         }
 
         return redirect()->back()->with('success', 'Product removed from cart!');
     }
+    public function updateCart(Request $request, $id)
+    {
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$id])) {
+            $cart[$id]['quantity'] = $request->quantity;
+            session()->put('cart', $cart);
+        }
+
+        return redirect()->back()->with('success', 'Cart updated successfully!');
+    }
+
 }
